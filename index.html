@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Smart Rescue | Emergency Report</title>
+
+<style>
+body{
+    margin:0;
+    font-family:"Segoe UI",Arial;
+    background:radial-gradient(circle at top, #020617, #000000);
+    color:#e5e7eb;
+}
+
+/* OFFLINE BANNER */
+.banner{
+    background:linear-gradient(90deg,#7f1d1d,#991b1b);
+    color:#fff;
+    text-align:center;
+    padding:12px;
+    font-weight:bold;
+    letter-spacing:0.5px;
+    border-bottom:2px solid #ef4444;
+}
+
+/* CENTER CARD */
+.wrapper{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    min-height:90vh;
+}
+
+.card{
+    width:420px;
+    background:#020617;
+    border:2px solid #1e3a8a;
+    border-radius:18px;
+    padding:30px;
+    box-shadow:0 0 25px rgba(56,189,248,0.15);
+}
+
+.card h2{
+    text-align:center;
+    margin-bottom:20px;
+    color:#38bdf8;
+}
+
+/* INPUTS */
+label{
+    font-size:14px;
+    color:#93c5fd;
+}
+
+input,textarea{
+    width:100%;
+    padding:12px;
+    margin-top:6px;
+    margin-bottom:16px;
+    border-radius:10px;
+    border:none;
+    font-size:14px;
+    box-sizing:border-box;
+}
+
+textarea{
+    resize:none;
+    height:90px;
+}
+
+/* BUTTONS */
+button{
+    width:100%;
+    padding:14px;
+    border:none;
+    border-radius:12px;
+    background:linear-gradient(90deg,#f97316,#ef4444);
+    color:white;
+    font-size:16px;
+    font-weight:bold;
+    cursor:pointer;
+    margin-top:8px;
+}
+
+button:hover{
+    opacity:0.9;
+}
+
+.example{
+    margin-top:20px;
+    font-size:13px;
+    color:#9ca3af;
+}
+
+.status{
+    text-align:center;
+    margin-top:10px;
+    color:#34d399;
+    font-weight:bold;
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="banner">
+🚨 OFFLINE DISASTER MODE ACTIVE — Works without Internet (Salem City)
+</div>
+
+<div class="wrapper">
+<div class="card">
+
+<h2>🚑 Emergency Report — Salem</h2>
+
+<form action="/report" method="post">
+
+<label>👤 Name</label> <input name="name" placeholder="Enter your name" required>
+
+<label>🆘 Emergency Message (Tamil / English)</label>
+
+<textarea name="condition"
+placeholder="Describe the emergency clearly"
+required></textarea>
+
+<label>📍 Emergency Address / Landmark</label> <input name="address"
+placeholder="Example: Salem New Bus Stand, Five Roads, Hospital Area"
+required>
+
+<input type="hidden" id="lat" name="lat">
+<input type="hidden" id="lon" name="lon">
+
+<button type="button" onclick="getLocation()">
+📍 Get Current Location
+</button>
+
+<div id="locationStatus" class="status"></div>
+
+<button type="submit">
+🚨 Submit Emergency
+</button>
+
+</form>
+
+<div class="example">
+<b>Example Tamil:</b> குழந்தை சிக்கி உதவி<br>
+<b>Example English:</b> Child trapped, need help
+</div>
+
+</div>
+</div>
+
+<script>
+function getLocation(){
+
+    if(navigator.geolocation){
+
+        navigator.geolocation.getCurrentPosition(
+
+            function(position){
+
+                document.getElementById("lat").value =
+                position.coords.latitude;
+
+                document.getElementById("lon").value =
+                position.coords.longitude;
+
+                document.getElementById("locationStatus").innerHTML =
+                "✅ Location Captured Successfully";
+
+            },
+
+            function(error){
+
+                document.getElementById("locationStatus").innerHTML =
+                "❌ Please allow location access";
+
+            }
+
+        );
+
+    }else{
+
+        document.getElementById("locationStatus").innerHTML =
+        "❌ Geolocation not supported";
+
+    }
+}
+</script>
+
+</body>
+</html>

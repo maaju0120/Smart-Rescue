@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Smart Rescue | Control Room</title>
+<meta http-equiv="refresh" content="5">
+
+<style>
+body{
+    margin:0;
+    font-family:"Segoe UI",Arial;
+    background:#020617;
+    color:#e5e7eb;
+}
+
+header{
+    padding:20px;
+    border-bottom:2px solid #1e3a8a;
+}
+
+header h1{
+    color:#38bdf8;
+    margin:0;
+}
+
+.container{
+    padding:20px;
+}
+
+.cards{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:15px;
+    margin-bottom:25px;
+}
+
+.card{
+    padding:18px;
+    border-radius:14px;
+    text-align:center;
+    font-size:18px;
+    font-weight:bold;
+}
+
+.high{
+    background:#7f1d1d;
+}
+
+.medium{
+    background:#78350f;
+}
+
+.low{
+    background:#064e3b;
+}
+
+.risk{
+    background:#1e40af;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    background:#0f172a;
+    border-radius:10px;
+    overflow:hidden;
+}
+
+th,td{
+    padding:12px;
+    text-align:center;
+    border-bottom:1px solid #1e293b;
+}
+
+th{
+    color:#60a5fa;
+    background:#0b1220;
+}
+
+.priority-HIGH{
+    color:#f87171;
+    font-weight:bold;
+}
+
+.priority-MEDIUM{
+    color:#fbbf24;
+    font-weight:bold;
+}
+
+.priority-LOW{
+    color:#34d399;
+    font-weight:bold;
+}
+
+.escalated{
+    color:#fb7185;
+    font-weight:bold;
+}
+
+.address{
+    color:#93c5fd;
+    font-size:13px;
+}
+
+iframe{
+    width:100%;
+    height:450px;
+    border:none;
+    border-radius:12px;
+    margin-top:20px;
+}
+</style>
+
+</head>
+
+<body>
+
+<header>
+<h1>🚨 Smart Rescue — Control Room Dashboard</h1>
+</header>
+
+<div class="container">
+
+<div class="cards">
+<div class="card high">
+🔴 HIGH<br>{{ high }}
+</div>
+
+<div class="card medium">
+🟠 MEDIUM<br>{{ medium }}
+</div>
+
+<div class="card low">
+🟢 LOW<br>{{ low }}
+</div>
+
+<div class="card risk">
+🔥 AREA RISK<br>{{ area_risk }}
+</div>
+</div>
+
+<h2>📋 Emergency Priority Queue</h2>
+
+<table>
+
+<tr>
+<th>Name</th>
+<th>Emergency Message</th>
+<th>Address</th>
+<th>Language</th>
+<th>Priority</th>
+<th>AI Decision</th>
+<th>Reported</th>
+<th>Escalated</th>
+</tr>
+
+{% for r in records %}
+
+<tr>
+
+<td>{{ r.name }}</td>
+
+<td>{{ r.msg }}</td>
+
+<td class="address">
+{{ r.address }}
+</td>
+
+<td>{{ r.lang }}</td>
+
+<td class="priority-{{ r.priority }}">
+{{ r.priority }}
+</td>
+
+<td>{{ r.decision }}</td>
+
+<td>{{ r.time }}</td>
+
+<td>
+{% if r.escalated == "YES" %}
+<span class="escalated">🔥 YES</span>
+{% else %}
+—
+{% endif %}
+</td>
+
+</tr>
+{% endfor %}
+
+</table>
+
+<h2>🗺 Live Emergency Map</h2>
+
+<iframe src="/static/map.html"></iframe>
+
+</div>
+
+</body>
+</html>
